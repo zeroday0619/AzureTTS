@@ -69,9 +69,9 @@ class MicrosoftTTS:
                     )
 
     @staticmethod
-    def create_ssml(text: str, lang: str, gender: str) -> str:
+    def create_ssml(text: str, lang: str, gender: str, name: str) -> str:
         return f"""<speak version='1.0' xml:lang='{lang}'><voice xml:lang='{lang}' xml:gender='{gender}'
-                name='en-US-ChristopherNeural'>{text}</voice></speak>"""
+                name='{name}'>{text}</voice></speak>"""
 
     async def write_to_fp(self, ssml_text: str, _io: BytesIO):
         _content_length = len(ssml_text)
