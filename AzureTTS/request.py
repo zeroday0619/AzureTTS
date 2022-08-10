@@ -92,8 +92,7 @@ class MicrosoftTTS:
         async with aiohttp.ClientSession(
                 headers={
                     "Content-Type": "application/ssml+xml",
-                    "Content-Length": str(_content_length),
-                    "X-Microsoft-OutputFormat": "audio-24khz-16bit-24kbps-mono-opus",
+                    "X-Microsoft-OutputFormat": "riff-48khz-16bit-mono-pcm"",
                     "Authorization": f"Bearer {await self.get_access_token()}"
                 }
         ) as req:
