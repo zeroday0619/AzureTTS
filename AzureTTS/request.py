@@ -69,9 +69,9 @@ class MicrosoftTTS:
                     )
 
     @staticmethod
-    def create_ssml(text: str, lang: str, gender: str) -> str:
+    def create_ssml(text: str, lang: str, gender: str, name: str) -> str:
         return f"""<speak version='1.0' xml:lang='{lang}'><voice xml:lang='{lang}' xml:gender='{gender}'
-                name='en-US-ChristopherNeural'>{text}</voice></speak>"""
+                name='{name}'>{text}</voice></speak>"""
 
     async def get_access_token(self):
         async with aiohttp.ClientSession(
@@ -92,11 +92,12 @@ class MicrosoftTTS:
         _content_length = len(ssml_text)
         async with aiohttp.ClientSession(
                 headers={
+                    "Ocp-Apim-Subscription-Key": self._api_key,
                     "Content-Type": "application/ssml+xml",
                     "Content-Length": _content_length,
                     "X-Microsoft-OutputFormat": "audio-24khz-16bit-24kbps-mono-opus",
                     "Authorization": f"Bearer {await self.get_access_token()}"
-                },
+                }
         ) as req:
             async with req.post(
                     url=self._api_url + "/v1",
