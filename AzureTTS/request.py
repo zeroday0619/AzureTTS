@@ -73,14 +73,30 @@ class MicrosoftTTS:
         return f"""<speak version='1.0' xml:lang='{lang}'><voice xml:lang='{lang}' xml:gender='{gender}'
                 name='en-US-ChristopherNeural'>{text}</voice></speak>"""
 
+    async def get_access_token(self):
+        async with aiohttp.ClientSession(
+            headers={
+                "Ocp-Apim-Subscription-Key": self._api_key,
+            }
+        ) as req:
+            async with req.post(url="https://koreacentral.api.cognitive.microsoft.com/sts/v1.0/issueToken") as resp:
+                if resp.status == 200:
+                    return resp.text()
+                else:
+                    raise RequestException(
+                        status_code=resp.status,
+                        message="Failed to get access token. Please try again later.",
+                    )
+
     async def write_to_fp(self, ssml_text: str, _io: BytesIO):
         _content_length = len(ssml_text)
         async with aiohttp.ClientSession(
                 headers={
                     "Content-Type": "application/ssml+xml",
                     "Content-Length": _content_length,
-                    "X-Microsoft-OutputFormat": "audio-24khz-16bit-24kbps-mono-opus"
-                }
+                    "X-Microsoft-OutputFormat": "audio-24khz-16bit-24kbps-mono-opus",
+                    "Authorization": f"Bearer {await self.get_access_token()}"
+                },
         ) as req:
             async with req.post(
                     url=self._api_url + "/v1",
