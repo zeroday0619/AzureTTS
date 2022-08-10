@@ -92,7 +92,6 @@ class MicrosoftTTS:
         _content_length = len(ssml_text)
         async with aiohttp.ClientSession(
                 headers={
-                    "Ocp-Apim-Subscription-Key": self._api_key,
                     "Content-Type": "application/ssml+xml",
                     "Content-Length": _content_length,
                     "X-Microsoft-OutputFormat": "audio-24khz-16bit-24kbps-mono-opus",
