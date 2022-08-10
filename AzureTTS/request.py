@@ -1,6 +1,5 @@
 import aiohttp
 
-from io import BytesIO
 
 
 class RequestException(Exception):
@@ -88,12 +87,12 @@ class MicrosoftTTS:
                         message="Failed to get access token. Please try again later.",
                     )
 
-    async def write_to_fp(self, ssml_text: str, _io: BytesIO):
+    async def write_to_fp(self, ssml_text: str):
         _content_length = len(ssml_text)
         async with aiohttp.ClientSession(
                 headers={
                     "Content-Type": "application/ssml+xml",
-                    "Content-Length": _content_length,
+                    "Content-Length": str(_content_length),
                     "X-Microsoft-OutputFormat": "audio-24khz-16bit-24kbps-mono-opus",
                     "Authorization": f"Bearer {await self.get_access_token()}"
                 }
@@ -103,8 +102,7 @@ class MicrosoftTTS:
                     data=ssml_text
             ) as resp:
                 if resp.status == 200:
-                    async for chunk in resp.content.iter_chunked(n=1024):
-                        _io.write(chunk)
+                    return resp.read()
                 elif resp.status == 400:
                     raise RequestException(
                         status_code=resp.status,
