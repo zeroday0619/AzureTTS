@@ -30,6 +30,7 @@ setup(
         "ZerodayTTS", "Microsoft Azure", "TTS"
     ],
     python_requires='>=3',
+    install_requires=["aiohttp"],
     zip_safe=False,
     classifiers=[
         'Programming Language :: Python :: 3.7',
