@@ -101,7 +101,7 @@ class MicrosoftTTS:
                     data=ssml_text
             ) as resp:
                 if resp.status == 200:
-                    return resp.read()
+                    return await resp.read()
                 elif resp.status == 400:
                     raise RequestException(
                         status_code=resp.status,
