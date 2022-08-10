@@ -81,7 +81,7 @@ class MicrosoftTTS:
         ) as req:
             async with req.post(url="https://koreacentral.api.cognitive.microsoft.com/sts/v1.0/issueToken") as resp:
                 if resp.status == 200:
-                    return resp.text()
+                    return await resp.text()
                 else:
                     raise RequestException(
                         status_code=resp.status,
