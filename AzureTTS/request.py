@@ -87,7 +87,7 @@ class MicrosoftTTS:
                         message="Failed to get access token. Please try again later.",
                     )
 
-    async def write_to_fp(self, ssml_text: str):
+    async def speach(self, ssml_text: str):
         _content_length = len(ssml_text)
         async with aiohttp.ClientSession(
                 headers={
