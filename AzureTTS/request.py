@@ -69,7 +69,7 @@ class MicrosoftTTS:
 
     @staticmethod
     def create_ssml(text: str, lang: str, gender: str, name: str) -> str:
-        return f"""<speak version='1.0' xml:lang='{lang}'><voice xml:lang='{lang}' xml:gender='{gender}' name='{name}'><mstts:express-as style="chat" role='Girl'>{text}</mstts:express-as></voice></speak>"""
+        return f"""<speak version='1.0' xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang='{lang}'><voice xml:lang='{lang}' xml:gender='{gender}' name='{name}'><mstts:express-as style="chat" role='Girl'>{text}</mstts:express-as></voice></speak>"""
 
     async def get_access_token(self):
         async with aiohttp.ClientSession(
