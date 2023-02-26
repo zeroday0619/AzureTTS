@@ -1,6 +1,7 @@
 import re
 from setuptools import setup, find_packages
 
+
 version = ''
 with open('AzureTTS/__init__.py') as f:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)

@@ -68,9 +68,17 @@ class MicrosoftTTS:
                     )
 
     @staticmethod
-    def create_ssml(text: str, lang: str, gender: str, name: str) -> str:
-        return f"""<speak version='1.0' xml:lang='{lang}'><voice xml:lang='{lang}' xml:gender='{gender}'
-                name='{name}'>{text}</voice></speak>"""
+    def create_ssml(text: str, lang: str, gender: str, name: str, role: str) -> str:
+        """Create SSML
+
+        :param text: The text to be spoken
+        :param lang: The language of the text
+        :param gender: The gender of the voice
+        :param name: The name of the voice
+        :param role: The role of the voice
+        :return: SSML
+        """
+        return f"""<speak version='1.0' xml:lang='{lang}'><voice xml:lang='{lang}' xml:gender='{gender}' name='{name}'><mstts:express-as role='{role}'>{text}</mstts:express-as></voice></speak>"""
 
     async def get_access_token(self):
         async with aiohttp.ClientSession(
